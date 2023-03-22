@@ -14,14 +14,24 @@ spring:
     activate:
       on-profile: common
 
-
 ---
 
 spring:
   config:
     activate:
       on-profile: local
-
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/pharmacy-recommendation
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  redis:
+    host: local
+    port: 6379
+  jpa:
+    hibernate:
+      ddl-auto: create # create 옵션은 개발 환경에서만 사용하자! 운영 환경에서는 none
+    show-sql: true # 실행 쿼리를 보여줌
 
 ---
 
