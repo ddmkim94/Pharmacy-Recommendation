@@ -1,0 +1,31 @@
+spring:
+  profiles:
+    active: local # 실행 시 local 설정을 활성화 한다.
+    group:
+      local: # local 설정 파일을 실행할 때 common 설정 포함
+        - common
+      prod:  # local 설정 파일을 실행할 때 common 설정 포함
+        - common
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: common
+
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
