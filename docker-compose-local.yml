@@ -20,5 +20,6 @@ services:
       - MARIADB_ROOT_PASSWORD=${SPRING_DATASOURCE_PASSWORD} # 외부에서 주입 (.env 파일로 작성 -> 도커 컴포즈가 실행될 때 읽어서 주입)
     volumes:
     - ./database/config:/etc/config/conf.d # mariadb.cnf 를 참조해서 conf.d 초기화를 진행
+    - ./database/init:/docker-entrypoint-initdb.d
     ports:
     - "3306:3306" # mariadb 기본 포트는 3306
