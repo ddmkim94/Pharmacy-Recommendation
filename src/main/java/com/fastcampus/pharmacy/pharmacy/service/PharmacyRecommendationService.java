@@ -34,7 +34,10 @@ public class PharmacyRecommendationService {
         DocumentDto documentDto = kakaoApiResponseDto.getDocumentList().get(0);
 
         // 해당 주소와 약국들의 주소를 이용해서 거리 계산을 한 후 가장 가까운 약국 3개를 리스트로 반환
-        List<Direction> directionList = directionService.buildDirectionList(documentDto);
+        // List<Direction> directionList = directionService.buildDirectionList(documentDto);
+        
+        // 카카오 API 사용!!
+        List<Direction> directionList = directionService.buildDirectionListByCategoryApi(documentDto);
 
         // 받아온 약국 정보를 데이터베이스에 저장
         directionService.saveAll(directionList);
