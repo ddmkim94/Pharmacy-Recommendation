@@ -30,5 +30,18 @@
             </div>
         </div>
     </div>
+
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        window.onload = function () {
+            document.querySelector("#address").addEventListener('click', () => {
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        document.querySelector("#address").value = data.address;
+                    }
+                }).open();
+            });
+        }
+    </script>
 </body>
 </html>
