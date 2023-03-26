@@ -36,6 +36,9 @@ spring:
     hibernate:
       ddl-auto: validate # create 옵션은 개발 환경에서만 사용하자! 운영 환경에서는 none
     show-sql: true # 실행 쿼리를 보여줌
+    properties:
+      hibernate:
+        format_sql: true
 
 ---
 
