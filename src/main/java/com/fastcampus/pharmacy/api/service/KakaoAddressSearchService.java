@@ -8,6 +8,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpRequest;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Recover;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.RestTemplate;
@@ -25,6 +28,11 @@ public class KakaoAddressSearchService {
     @Value("${kakao.rest.api.key}")
     public String kakaoRestApiKey;
 
+    @Retryable(
+            value = {RuntimeException.class},
+            maxAttempts = 2,
+            backoff = @Backoff(delay = 2000)
+    )
     public KakaoApiResponseDto requestAddressSearch(String address) {
 
         if (ObjectUtils.isEmpty(address)) {
@@ -39,5 +47,12 @@ public class KakaoAddressSearchService {
 
         // kakao api 호출
         return restTemplate.exchange(uri, HttpMethod.GET, httpEntity, KakaoApiResponseDto.class).getBody();
+    }
+
+    // recover 메서드는 원래 메서드의 리턴 타입과 동일한 타입을 반환해야 한다.
+    @Recover
+    public KakaoApiResponseDto recover(RuntimeException e, String address) {
+        log.error("All the retires failed. address: {}, error: {}", address, e.getMessage());
+        return null;
     }
 }
