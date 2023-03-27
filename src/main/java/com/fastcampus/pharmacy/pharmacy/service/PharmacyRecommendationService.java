@@ -5,9 +5,11 @@ import com.fastcampus.pharmacy.api.dto.KakaoApiResponseDto;
 import com.fastcampus.pharmacy.api.service.KakaoAddressSearchService;
 import com.fastcampus.pharmacy.direction.dto.OutputDto;
 import com.fastcampus.pharmacy.direction.entity.Direction;
+import com.fastcampus.pharmacy.direction.service.Base62Service;
 import com.fastcampus.pharmacy.direction.service.DirectionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -16,13 +18,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class PharmacyRecommendationService {
 
     private final KakaoAddressSearchService kakaoAddressSearchService;
     private final DirectionService directionService;
+    private final Base62Service base62Service;
+
+    private static final String ROAD_VIEW_BASE_URL = "https://map.kakao.com/link/roadview/";
+
+    // shorten url
+    @Value("${pharmacy.recommendation.base.url}")
+    private String baseUrl;
 
     public List<OutputDto> recommendPharmacyList(String address) {
 
@@ -53,9 +62,10 @@ public class PharmacyRecommendationService {
         return OutputDto.builder()
                 .pharmacyName(direction.getTargetPharmacyName())
                 .pharmacyAddress(direction.getTargetAddress())
-                .directionUrl("todo") // todo: 추가 예정!
-                .roadViewUrl("todo")
+                .directionUrl(baseUrl + base62Service.encodeDirectionId(direction.getId())) // shorten url
+                .roadViewUrl(ROAD_VIEW_BASE_URL + direction.getTargetLatitude() + "," + direction.getTargetLongitude())
                 .distance(String.format("%.2f km", direction.getDistance()))
                 .build();
     }
+
 }

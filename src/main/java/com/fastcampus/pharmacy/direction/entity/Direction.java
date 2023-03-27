@@ -20,12 +20,12 @@ public class Direction extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    // 고객 (카카오 API)
+    // 고객의 주소 정보
     private String inputAddress;
     private double inputLatitude;
     private double inputLongitude;
 
-    // 약국 (공공데이터 API)
+    // 약국의 주소 정보
     private String targetAddress;
     private double targetLatitude;
     private double targetLongitude;
