@@ -36,12 +36,10 @@ public class PharmacyRedisTemplateService {
         }
 
         try {
-            hashOperations.put(
-                    CACHE_KEY,
-                    String.valueOf(pharmacyDto.getId()),
-                    serializePharmacyDto(pharmacyDto)
-            );
-            log.info("[PharmacyRedisTemplateService save success] id: {}", pharmacyDto.getId());
+            hashOperations.put(CACHE_KEY,
+                    pharmacyDto.getId().toString(),
+                    serializePharmacyDto(pharmacyDto));
+            log.info("[PharmacyRedisTemplateService save success] key: {}, id: {}",CACHE_KEY, pharmacyDto.getId());
         } catch (Exception e) {
             log.error("[PharmacyRedisTemplateService save error] {}", e.getMessage());
         }
