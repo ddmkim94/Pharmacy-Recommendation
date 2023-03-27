@@ -12,12 +12,10 @@ public class Base62Service {
 
     private static final Base62 base62 = Base62.createInstance();
 
-    // Long -> String
     public String encodeDirectionId(Long directionId) {
         return new String(base62.encode(String.valueOf(directionId).getBytes()));
     }
 
-    // String -> Long
     public Long decodeDirectionId(String encodedDirectionId) {
         String decode = new String(base62.decode(encodedDirectionId.getBytes()));
         return Long.valueOf(decode);
