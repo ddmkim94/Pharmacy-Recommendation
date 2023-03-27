@@ -1,5 +1,6 @@
 package com.fastcampus.pharmacy.pharmacy.service;
 
+import com.fastcampus.pharmacy.pharmacy.cache.PharmacyRedisTemplateService;
 import com.fastcampus.pharmacy.pharmacy.entity.Pharmacy;
 import com.fastcampus.pharmacy.pharmacy.entity.dto.PharmacyDto;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +16,19 @@ import java.util.stream.Collectors;
 public class PharmacySearchService {
 
     private final PharmacyRepositoryService pharmacyRepositoryService;
+    private final PharmacyRedisTemplateService pharmacyRedisTemplateService;
 
-    // redis
-
-    // db
     public List<PharmacyDto> searchPharmacyDtoList() {
+
+        // failover 처리
+        // redis
+        List<PharmacyDto> pharmacyDtoList = pharmacyRedisTemplateService.findAll();
+        if (!pharmacyDtoList.isEmpty()) {
+            log.info("redis findAll success!");
+            return pharmacyDtoList;
+        }
+
+        // db
         return pharmacyRepositoryService.findAll()
                 .stream()
                 .map(this::convertToPharmacyDto)
