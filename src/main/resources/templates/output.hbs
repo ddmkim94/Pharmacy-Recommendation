@@ -1,37 +1,125 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>약국 길찾기 서비스</title>
+    <title>우리 동네 약국</title>
     <!--부트스트랩 css 추가-->
     <link rel="stylesheet" href="/css/lib/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/font.css">
 
     <script defer src="/js/lib/jquery.min.js"></script>
     <script defer src="/js/lib/bootstrap.min.js"></script>
+    <script defer src="https://kit.fontawesome.com/585d621f74.js" crossorigin="anonymous"></script>
+    <style>
 
+        .main-box.no-header {
+            padding-top: 20px;
+        }
+        .main-box {
+            background: #ffffff;
+            -webkit-box-shadow: 1px 1px 2px 0 #cccccc;
+            -moz-box-shadow: 1px 1px 2px 0 #cccccc;
+            -o-box-shadow: 1px 1px 2px 0 #cccccc;
+            -ms-box-shadow: 1px 1px 2px 0 #cccccc;
+            box-shadow: 1px 1px 2px 0 #cccccc;
+            margin-bottom: 16px;
+            -webikt-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+        }
+        .table a.table-link.danger {
+            color: #e74c3c;
+        }
+        .label {
+            border-radius: 3px;
+            font-size: 0.875em;
+            font-weight: 600;
+        }
+        .user-list tbody td .user-subhead {
+            font-size: 0.7em;
+        }
+
+        .user-list tbody td .user-link {
+            display: block;
+            font-size: 1.1em;
+            padding-top: 3px;
+        }
+
+        .user-list tbody td > img {
+            position: relative;
+            max-width: 50px;
+            float: left;
+            margin-right: 15px;
+        }
+
+        .table thead tr th {
+            text-transform: uppercase;
+            font-size: 0.875em;
+        }
+        .table thead tr th {
+            border-bottom: 2px solid #e7ebee;
+        }
+        .table tbody tr td:first-child {
+            font-size: 1.125em;
+            font-weight: 300;
+        }
+        .table tbody tr td {
+            font-size: 0.875em;
+            vertical-align: middle;
+            border-top: 1px solid #e7ebee;
+            padding: 12px 8px;
+        }
+        a:hover {
+            text-decoration: none;
+        }
+    </style>
 </head>
-<body>
-<div>
-    <h2 class="h2-title">Pharmacy Recommendation Results</h2>
+<body style="background: url('/images/pharmacy.jpg') no-repeat center; background-size : cover; height: 100vh;">
+<div class="container mt-3">
+    <a href="/" style="position: fixed; padding: 20px; border-radius: 10px; left: 6px; background-color: #23418A; color: white;">
+        <i class="fa-solid fa-arrow-left" ></i>
+    </a>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="main-box no-header clearfix">
+                <div class="main-box-body clearfix">
+                    <div class="table-responsive">
+                        <table class="table user-list">
+                            <thead>
+                            <tr class="text-center">
+                                <th><span>약국명</span></th>
+                                <th><span>약국 주소</span></th>
+                                <th class="text-center"><span>거리</span></th>
+                                <th><span>지도/로드뷰 링크</span></th>
+                            </tr>
+                            </thead>
+                            <tbody class="text-center">
+                            {{#each outputFormList}}
+                                <tr>
+                                    <td>
+                                        <a href="#" class="user-link">{{pharmacyName}}</a>
+                                        <span class="user-subhead badge bg-success">약국</span>
+                                    </td>
+                                    <td>{{pharmacyAddress}}</td>
+                                    <td>
+                                        <span class="badge bg-warning text-dark" style="font-weight: bold;">{{distance}}</span>
+                                    </td>
+                                    <td>
+                                        <a href="{{directionUrl}}" target="_blank">
+                                            <i class="fa-solid fa-map" style="color: #60DC3D; border-radius: 10px; background-color: #23418A; padding: 15px;"></i>
+                                        </a>
+                                        <a href="{{roadViewUrl}}" target="_blank">
+                                            <i class="fa-solid fa-location-dot" style="color: #0A5DED; border-radius: 10px; background-color: #E8CF09; padding: 15px 17px;"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<table class="table table-hover">
-    <tr>
-        <th>약국명</th>
-        <th>약국 주소</th>
-        <th>거리</th>
-        <th>길안내 링크</th>
-        <th>로드뷰 링크</th>
-    </tr>
-    {{#each outputFormList}}
-        <tr>
-            <td>{{pharmacyName}}</td>
-            <td>{{pharmacyAddress}}</td>
-            <td>{{distance}}</td>
-            <td><a href="{{directionUrl}}">{{directionUrl}}</a></td>
-            <td><a href="{{roadViewUrl}}">{{roadViewUrl}}</a></td>
-        </tr>
-    {{/each}}
-</table>
 </body>
 </html>

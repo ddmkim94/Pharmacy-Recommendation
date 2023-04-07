@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Service
 public class DirectionService {
 
-    private static final int MAX_SEARCH_COUNT = 3; // 약국 최대 검색 개수
+    private static final int MAX_SEARCH_COUNT = 10; // 약국 최대 검색 개수
     private static final double RADIUS_KM = 10.0; // 반경 10 km
     private static final String DIRECTION_BASE_URL = "https://map.kakao.com/link/map/";
 
